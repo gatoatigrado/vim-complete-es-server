@@ -1,0 +1,16 @@
+elasticsearch:
+  image: elasticsearch:1.7.2
+  ports: ["9200"]
+  volumes:
+    # NOTE: maybe change this for linux setups, this is for docker-machine
+    - "/home/docker/es-index:/usr/share/elasticsearch/data"
+
+server:
+  build: .
+  command: ['python', '-m', 'es_complete.server']
+  ports:
+    ["18013:18013"]
+  links:
+    - "elasticsearch"
+  volumes:
+    - ".:/code"
